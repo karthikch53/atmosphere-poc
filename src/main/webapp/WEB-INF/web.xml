@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:j2ee="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee    http://java.sun.com/xml/ns/j2ee/web-app_2.5.xsd">
+	<description>Atmosphere Twitter Search</description>
+	<display-name>Atmosphere Twitter Search</display-name>
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	<servlet>
+		<description>AtmosphereServlet</description>
+		<servlet-name>AtmosphereServlet</servlet-name>
+		<servlet-class>org.atmosphere.cpr.AtmosphereServlet</servlet-class>
+		<init-param>
+			<param-name>org.atmosphere.useNative</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>org.atmosphere.cpr.broadcastFilterClasses</param-name>
+			<param-value>org.atmosphere.client.TrackMessageSizeFilter
+			</param-value>
+		</init-param>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>com.feeds.atmosphere.resource</param-value>
+		</init-param>
+		<init-param>
+			<param-name>org.atmosphere.cpr.broadcastFilterClasses</param-name>
+			<param-value>org.atmosphere.client.TrackMessageSizeFilter</param-value>
+		</init-param>
+		<init-param>
+			<param-name>org.atmosphere.cpr.broadcaster.shareableThreadPool</param-name>
+			<param-value>true</param-value>
+		</init-param>
+		<init-param>
+			<param-name>org.atmosphere.cpr.broadcaster.maxProcessingThreads</param-name>
+			<param-value>10</param-value>
+		</init-param>
+		<init-param>
+			<param-name>org.atmosphere.cpr.broadcaster.maxAsyncWriteThreads</param-name>
+			<param-value>10</param-value>
+		</init-param>
+		<init-param>
+			<param-name>org.atmosphere.cpr.AtmosphereInterceptor</param-name>
+			<param-value>org.atmosphere.interceptor.HeartbeatInterceptor</param-value>
+		</init-param>
+		<init-param>
+          <param-name>org.atmosphere.cpr.broadcasterCacheClass</param-name>
+          <param-value>org.atmosphere.cache.UUIDBroadcasterCache</param-value>
+      </init-param>
+		<async-supported>true</async-supported>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+	<servlet>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<servlet-class>com.sun.jersey.spi.container.servlet.ServletContainer
+		</servlet-class>
+		<init-param>
+			<param-name>com.sun.jersey.config.property.packages</param-name>
+			<param-value>com.feeds.rest</param-value>
+		</init-param>
+		<load-on-startup>0</load-on-startup>
+	</servlet>
+
+
+	<servlet-mapping>
+		<servlet-name>AtmosphereServlet</servlet-name>
+		<url-pattern>/atmos/*</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>jersey-serlvet</servlet-name>
+		<url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
+	<session-config>
+        <session-timeout>1</session-timeout>
+	</session-config>
+</web-app>
